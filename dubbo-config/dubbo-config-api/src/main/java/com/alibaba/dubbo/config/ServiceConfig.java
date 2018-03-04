@@ -63,6 +63,8 @@ import static com.alibaba.dubbo.common.utils.NetUtils.isInvalidLocalHost;
 import static com.alibaba.dubbo.common.utils.NetUtils.isInvalidPort;
 
 /**
+ * 服务提供者暴露服务配置
+ * 文档地址：http://dubbo.io/books/dubbo-user-book/references/xml/dubbo-service.html
  * ServiceConfig
  *
  * @export
@@ -207,6 +209,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
 
         if (delay != null && delay > 0) {
             delayExportExecutor.schedule(new Runnable() {
+                @Override
                 public void run() {
                     doExport();
                 }

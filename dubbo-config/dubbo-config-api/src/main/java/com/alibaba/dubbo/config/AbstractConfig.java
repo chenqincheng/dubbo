@@ -44,8 +44,9 @@ public abstract class AbstractConfig implements Serializable {
 
     protected static final Logger logger = LoggerFactory.getLogger(AbstractConfig.class);
     private static final long serialVersionUID = 4267533505537413570L;
+    //最大长度
     private static final int MAX_LENGTH = 200;
-
+    //最大路径长度
     private static final int MAX_PATH_LENGTH = 200;
 
     private static final Pattern PATTERN_NAME = Pattern.compile("[\\-._0-9a-zA-Z]+");
@@ -86,10 +87,18 @@ public abstract class AbstractConfig implements Serializable {
 
     protected String id;
 
+    /**
+     *遗留参数转换
+     * @param key 键
+     * @param value 值
+     * @return 转换结果
+     */
     private static String convertLegacyValue(String key, String value) {
         if (value != null && value.length() > 0) {
+            //远程服务调用重试次数，不包括第一次调用，不需要重试请设为0
             if ("dubbo.service.max.retry.providers".equals(key)) {
                 return String.valueOf(Integer.parseInt(value) - 1);
+                //
             } else if ("dubbo.service.allow.no.provider".equals(key)) {
                 return String.valueOf(!Boolean.parseBoolean(value));
             }
@@ -97,6 +106,10 @@ public abstract class AbstractConfig implements Serializable {
         return value;
     }
 
+    /**
+     * 读取配置参数
+     * @param config
+     */
     protected static void appendProperties(AbstractConfig config) {
         if (config == null) {
             return;
